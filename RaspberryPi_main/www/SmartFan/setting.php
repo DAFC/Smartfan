@@ -25,9 +25,23 @@ require_once 'lib.php';
 		</div>
 
 		<div id="main">
-			<form name="smartfan" action="setting.php">
+			<?php
+				$isBotFile = "../../scripts/isBot";
+				if(isset($_POST['smartfanSubmit'])){
+					if(isset($_POST['isBot'])){
+						$fp = fopen($isBotFile, "w");
+						fwrite($fp, "SmartfanIsTwitterBot");
+						fclose($fp);
+					}else{
+						if(file_exists($isBotFile)){
+							unlink($isBotFile);
+						}
+					}
+				}
+			?>
+			<form name="smartfan" method="post" action="setting.php">
 				<p>smartfan</p>
-				<input type="checkbox" name="isBot" />Twitterへの投稿を有効にする
+				<input type="checkbox" name="isBot" <?php if(file_exists($isBotFile)){ echo "checked"; } ?> />Twitterへの自動投稿を有効にする
 				<input type="submit" name="smartfanSubmit" value="送信" />
 			</form>
 		</div>

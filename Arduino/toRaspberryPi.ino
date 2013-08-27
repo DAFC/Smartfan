@@ -1,16 +1,23 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <SHT1x.h>
+#define dataPin 50
+#define clockPin 48
+SHT1x sht1x(dataPin, clockPin);
+
 const int MAX = 20;
 const char POWER[] = "Power";
 const char TEMPERATURE[] = "Temperature";
 const char DEGREE[] = "Degree";
+const char SWING[] = "Swing";
+const char SWITCH[] = "Switch";
 
 double temperature;
 double humidity;
 String mes;
 
-double t;
+//double t;  //test
 
 char str[MAX];
 int ptr;
@@ -22,14 +29,15 @@ void setup(){
   Serial1.begin(9600);
   temperature = 0.0;
   humidity = 00.0;
-  t=0.0;
+  //t = 0.0;
 }
 
 void loop(){
   //read hardware devices value
-  temperature += 0.1;
-  humidity += 0.2;
-  t += 0.001;
+  temperature = sht1x.readTemperatureC();
+  humidity = sht1x.readHumidity();
+  
+  //t += 0.001;  //test
   
   
   if(Serial1.available() > 0){
@@ -54,11 +62,26 @@ void loop(){
       
       //from raspberry pi
       if(strcmp(code, POWER) == 0){
-        Serial.println("Smartfan set power:" + DoubleToString(param) + "%");
+        if(param < 0){
+          //rhythm
+          Serial.println("Smartfan set rhythmical wind");
+        }else{
+          //0 - 100
+          Serial.println("Smartfan set wind power:" + DoubleToString(param) + "%");
+        }
       }else if(strcmp(code, TEMPERATURE) == 0){
+        //to air conditioner
         Serial.println("Smartfan set temperature:" + DoubleToString(param) + "C");
       }else if(strcmp(code, DEGREE) == 0){
         Serial.println("Smartfan set degree:" + DoubleToString(param) + "deg"); 
+      }else if(strcmp(code, SWING) == 0){
+        //swing option
+        boolean isSwingOn = (param != 0);
+        Serial.println("Smartfan set swing:" + String((isSwingOn) ? "On" : "Off"));
+      }else if(strcmp(code, SWITCH) == 0){
+        //power on switch
+        boolean isSwitchOn = (param != 0);
+        Serial.println("Smartfan set switch:" + String((isSwitchOn) ? "On" : "Off"));
       }else if(strcmp(code, "test") == 0){
         Serial.println("test");
       }
@@ -71,8 +94,9 @@ void loop(){
   }
   
   mes = "V|";
-  mes += DoubleToString(sin(t)) + "," + DoubleToString(cos(t)) + ",";
+  mes += DoubleToString(temperature) + "," + DoubleToString(humidity) + ",";
   Serial1.println(mes);
+  //Serial.println(mes);
 }
 
 String DoubleToString(double number){

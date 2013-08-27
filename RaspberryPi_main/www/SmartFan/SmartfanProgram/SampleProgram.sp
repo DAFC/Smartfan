@@ -1,0 +1,5 @@
+10_OnProgram
+11_PowerProgram_middle
+11_SwingProgram_on
+20_PowerProgram_high
+60_OffProgram

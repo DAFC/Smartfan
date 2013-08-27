@@ -12,7 +12,7 @@ function echoGraphList($array){
 
 function echoGetData($key){
 	if(!($fp=fopen("data.csv", "r"))){
-		throw new ErrorException("�t�@�C����������܂���B");
+		throw new ErrorException("?t?@?C???????????????B");
 	}
 	echo '[';
 	$num = -1;
@@ -28,7 +28,7 @@ function echoGetData($key){
 			break;
 	}
 	if($num == -1){
-		throw new ErrorException("�f�[�^������܂���B");
+		throw new ErrorException("?f?[?^??????????B");
 	}
 	while (($array = fgetcsv($fp,0,",")) !== FALSE){
 		echo $array[$num] . ',';

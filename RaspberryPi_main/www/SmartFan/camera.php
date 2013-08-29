@@ -26,6 +26,7 @@ require_once 'lib.php';
 		</div>
 
 		<div id="main">
+			<h2>Camera</h2>
 			<p><?php printf('%02d時%1d0分頃の様子', date("H"), date("i")/10)?></p>
 			<img alt="now" src="now.png" width="500px" />
 		</div>

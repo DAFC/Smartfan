@@ -22,9 +22,11 @@ require_once 'lib.php';
 		
 		<div id="bar">
 			<p>Smartfanを外部から制御することができます。また、Smartfanが計測した情報をリアルタイムに閲覧することができます。</p>
+			<p>表示はInternetExplorer11 Firefox23 GoogleChrome29で確認しています。</p>
 		</div>
 
 		<div id="main">
+			<h2>Home</h2>
 			<p>Smartfan コントロールパネルへようこそ</p>
 		</div>
 

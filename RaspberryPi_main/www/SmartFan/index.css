@@ -83,5 +83,32 @@ footer{
 
 form{
 	padding:20px;
-	border:1px solid #6c9;
+	border:2px solid #6c9;
+	border-radius: 10px;
+	margin:10px 0px;
+}
+
+form h3{
+	font-size: large;
+	margin:10px 0px;
+}
+
+form input{
+	margin:5px 0px;
+}
+
+ul{
+	list-style-type: none;
+}
+
+dl{
+	border:2px solid #6c9;
+	padding:3px;
+	margin-bottom:10px;
+	border-radius:10px;
+}
+
+dt,dd{
+	margin:0;
+	padding:0;
 }

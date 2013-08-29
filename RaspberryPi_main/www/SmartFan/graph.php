@@ -1,6 +1,6 @@
 <?php
 require_once 'lib.php';
-$list=["気温"=>"temperature","湿度"=>"humidity","回転数"=>"rpm"];
+$list=["気温"=>"temperature","湿度"=>"humidity"];
 ?>
 <html>
 <head>
@@ -10,10 +10,10 @@ $list=["気温"=>"temperature","湿度"=>"humidity","回転数"=>"rpm"];
 <script type="text/javascript" src="graph.js"></script>
 <script type="text/javascript">
 	window.onload = function(){
-		var t=new Graph("temperature",DataName.Temperature,"data.csv");
-		var h=new Graph("humidity",DataName.Humidity,"data.csv");
-		t.start();
-		h.start();
+		var t = new Graph("temperature", 0, "data.csv");
+		var h = new Graph("humidity", 1, "data.csv");
+		t.Start();
+		h.Start();
 	};
 </script>
 
@@ -33,11 +33,23 @@ $list=["気温"=>"temperature","湿度"=>"humidity","回転数"=>"rpm"];
 		
 		<div id="bar">
 			<p>Smartfanが計測した各種データをリアルタイムに閲覧できます。</p>
-			<p>Javascriptを使用していますので、Javascriptを有効にしてください。
+			<p>Javascriptを使用していますので、Javascriptを有効にしてください。</p>
+			<p>横軸で何も数字がついていないものは0.1の目盛です。</p>
+			<p>30分毎に縦軸を表示しています。</p>
 		</div>
 
 		<div id="main">
-			<?php echoGraphList($list);?>
+			<h2>Graph</h2>
+			<?php
+				echo '<ul>';
+				foreach ($list as $key => $value){
+					echo '<li><dl>';
+					echo '<dt>' . $key . '</dt>';
+					echo '<dd><canvas id="' . $value . '" height="200" width="500"></canvas></dd>';
+					echo '</dl></li>';
+				}
+				echo '</ul>';
+			?>
 		</div>
 
 		<footer>

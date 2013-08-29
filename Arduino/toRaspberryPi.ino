@@ -9,7 +9,6 @@ SHT1x sht1x(dataPin, clockPin);
 const int MAX = 20;
 const char POWER[] = "Power";
 const char TEMPERATURE[] = "Temperature";
-const char DEGREE[] = "Degree";
 const char SWING[] = "Swing";
 const char SWITCH[] = "Switch";
 
@@ -22,6 +21,11 @@ String mes;
 char str[MAX];
 int ptr;
 
+boolean isSwitchOn = false;
+double power = 0.0;
+boolean isSwingOn = false;
+double temperatureSetting = 28.0;
+
 void setup(){
   Serial.begin(9600);
   ptr = 0;
@@ -29,23 +33,23 @@ void setup(){
   Serial1.begin(9600);
   temperature = 0.0;
   humidity = 00.0;
-  //t = 0.0;
 }
 
 void loop(){
   //read hardware devices value
-  temperature = sht1x.readTemperatureC();
-  humidity = sht1x.readHumidity();
+  if(0 == (millis()/1000)%60){
+    Serial1.end();
+    temperature = sht1x.readTemperatureC();
+    humidity = sht1x.readHumidity();
+    Serial1.begin(9600);
+  }
   
-  //t += 0.001;  //test
-  
-  
+  //recieving piece of code form RaspberryPi
   if(Serial1.available() > 0){
     char c;
     char *code;
     double param;
     c = Serial1.read();
-    //Serial.println(c);
     if(c != '\n'){
       str[ptr] = c;
       ptr++;
@@ -60,32 +64,32 @@ void loop(){
       Serial.println("Code : " + String(code));
       Serial.println("Parameter : " + DoubleToString(param));
       
-      //from raspberry pi
+      //code from raspberry pi
       if(strcmp(code, POWER) == 0){
         if(param < 0){
           //rhythm
+          power = -1.0;
           Serial.println("Smartfan set rhythmical wind");
         }else{
           //0 - 100
+          power = param;
           Serial.println("Smartfan set wind power:" + DoubleToString(param) + "%");
         }
       }else if(strcmp(code, TEMPERATURE) == 0){
         //to air conditioner
+        temperatureSetting = param;
         Serial.println("Smartfan set temperature:" + DoubleToString(param) + "C");
-      }else if(strcmp(code, DEGREE) == 0){
-        Serial.println("Smartfan set degree:" + DoubleToString(param) + "deg"); 
       }else if(strcmp(code, SWING) == 0){
         //swing option
-        boolean isSwingOn = (param != 0);
-        Serial.println("Smartfan set swing:" + String((isSwingOn) ? "On" : "Off"));
+        isSwingOn = (param != 0);
+        Serial.println("Smartfan set swing:" + BooleanToString(isSwingOn));
       }else if(strcmp(code, SWITCH) == 0){
         //power on switch
-        boolean isSwitchOn = (param != 0);
-        Serial.println("Smartfan set switch:" + String((isSwitchOn) ? "On" : "Off"));
-      }else if(strcmp(code, "test") == 0){
-        Serial.println("test");
+        isSwitchOn = (param != 0);
+        Serial.println("Smartfan set switch:" + BooleanToString(isSwitchOn));
       }
       
+      //reset code buffer
       ptr = 0;
       for(int i=0; i < MAX; i++){
         str[i] = '\0';
@@ -95,11 +99,27 @@ void loop(){
   
   mes = "V|";
   mes += DoubleToString(temperature) + "," + DoubleToString(humidity) + ",";
+  mes += BooleanToString(isSwitchOn) + "," + DoubleToString(power) + ",";
+  mes += BooleanToString(isSwingOn)  + "," + DoubleToString(temperatureSetting) + ",";
+  
+  //Send to RaspberryPi
   Serial1.println(mes);
-  //Serial.println(mes);
 }
 
+//0->00.0
 String DoubleToString(double number){
   String result = String((int)number) + '.' + String(((int)(abs(number)*10))%10);
+  return result;
+}
+
+//true->"On" false->"Off"
+String BooleanToString(boolean isOn){
+  String result = isOn ? "On" : "Off";
+  return result;
+}
+
+//true->"1" false->"0"
+String BooleanToNumberString(boolean isOn){
+  String result = isOn ? "1" : "0";
   return result;
 }

@@ -4,7 +4,7 @@ require_once 'lib.php';
 <html>
 <head>
 <title>Welcome to the Smartfan</title>
-<link rel="stylesheet" type="text/css" href="index.css" />
+<?php require_once 'CSS.php';?>
 <meta charset="UTF-8" />
 </head>
 
@@ -12,17 +12,11 @@ require_once 'lib.php';
 
 	<div id="wrap">
 
-		<header>
-			<h1>Smartfan</h1>
-		</header>
-
-		<div id="navi">
-			<?php require 'navi.html'; ?>
-		</div>
+		<?php require_once 'header.html';?>
 		
 		<div id="bar">
 			<p>Smartfanを外部から制御することができます。また、Smartfanが計測した情報をリアルタイムに閲覧することができます。</p>
-			<p>表示はInternetExplorer11 Firefox23 GoogleChrome29で確認しています。</p>
+			<p>表示はInternetExplorer11 Firefox24 GoogleChrome29で確認しています。</p>
 		</div>
 
 		<div id="main">

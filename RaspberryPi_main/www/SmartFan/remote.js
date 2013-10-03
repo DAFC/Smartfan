@@ -1,4 +1,5 @@
-﻿function isNumeralCorrect(formName, elementName, minValue, maxValue) {
+﻿//フォーム内の数字が正常か確認
+function isNumeralCorrect(formName, elementName, minValue, maxValue) {
     var str = document.forms[formName].elements[elementName].value;
     if (!(/^-?\d+(\.\d+)?$/.test(str))) {
         alert("数字を入力してください。");
@@ -19,6 +20,7 @@
     return true;
 }
 
+//フォーム内でキー入力が発生した場合のイベント
 function program_OnKeyDownEvent(event) {
     if (event.keyCode == 13) {
         return false;
@@ -27,6 +29,7 @@ function program_OnKeyDownEvent(event) {
     return true;
 }
 
+//命令リストの選択項目変更時
 function actionList_OnChange() {
     var actionList = document.forms["program"].elements["actionList"];
     if (actionList.selectedIndex < 0) {
@@ -40,14 +43,17 @@ function actionList_OnChange() {
     eval((actionList[actionList.selectedIndex]).value + "Control()");
 }
 
+//起動
 function OnProgramControl() {
     ClearDynamicControl();
 }
 
+//終了
 function OffProgramControl() {
     ClearDynamicControl();
 }
 
+//風量  ラジオボタンx4 弱 中 強 リズム風
 function PowerProgramControl() {
     ClearDynamicControl();
 
@@ -83,6 +89,7 @@ function PowerProgramControl() {
     dc.appendChild(document.createTextNode("リズム"));
 }
 
+//首振り  ラジオボタンx2 On Off
 function SwingProgramControl() {
     ClearDynamicControl();
 
@@ -104,6 +111,7 @@ function SwingProgramControl() {
     dc.appendChild(document.createTextNode("Off"));
 }
 
+//命令によって発生するコントロールをすべて削除
 function ClearDynamicControl() {
     var dc = document.getElementById("dynamicControl");
     for (var i = dc.childNodes.length - 1; i >= 0; i--) {
@@ -111,6 +119,7 @@ function ClearDynamicControl() {
     }
 }
 
+//「セット」ボタン
 function AddToDoList() {
     if (!isNumeralCorrect("program", "minute", 0, "undefined")) {
         return;
@@ -157,6 +166,7 @@ function AddToDoList() {
     SortToDoList();
 }
 
+//命令リストを安定ソート
 function SortToDoList() {
     var toDoList = document.forms["program"].elements["toDoList[]"];
     var tempArray = new Array();
@@ -184,6 +194,7 @@ function SortToDoList() {
     }
 }
 
+//左「削除」ボタン
 function DeleteToDoListItem() {
     var toDoList = document.forms["program"].elements["toDoList[]"];
     if (toDoList.selectedIndex < 0) {
@@ -197,6 +208,7 @@ function DeleteToDoListItem() {
     }
 }
 
+//保存済みプログラムのリスト選択項目変更時
 function savedProgramList_OnChange() {
     var spl = document.forms["program"].elements["savedProgramList"];
     if (spl.selectedIndex < 0) {
@@ -205,11 +217,13 @@ function savedProgramList_OnChange() {
     eval((spl[spl.selectedIndex]).value);
 }
 
+//保存済みプログラムのリストのダブルクリック時
 function savedProgramList_OnDoubleClick() {
     (document.forms["program"].elements["savedProgramList"]).selectedIndex = -1;
     (document.forms["program"].elements["saveProgramName"]).value = "";
 }
 
+//保存済みプログラムからデータを読み込む
 function EditProgram(filename, program) {
     ClearToDoListItems();
 
@@ -238,6 +252,7 @@ function EditProgram(filename, program) {
     }
 }
 
+//命令リストをクリア
 function ClearToDoListItems() {
     var toDoList = document.forms["program"].elements["toDoList[]"];
 
@@ -246,6 +261,7 @@ function ClearToDoListItems() {
     }
 }
 
+//右「削除」ボタン処理前
 function deleteProgramSubmit_OnClickEvent() {
     if ((document.forms["program"].elements["savedProgramList"]).selectedIndex < 0) {
         alert("削除するプログラムを選択してください。");
@@ -254,6 +270,7 @@ function deleteProgramSubmit_OnClickEvent() {
     return true;
 }
 
+//「保存」ボタンイベント
 function saveProgramSubmit_ClickeEvent() {
     if ((document.forms["program"].elements["saveProgramName"]).value == "") {
         alert("プログラム名を入力してください。");
@@ -274,6 +291,7 @@ function saveProgramSubmit_ClickeEvent() {
     return true;
 }
 
+//「送信」ボタンイベント
 function sendProgramSubmit_ClickeEvent() {
     if ((document.forms["program"].elements["saveProgramName"]).value == "") {
         alert("プログラム名を入力してください。");
@@ -294,6 +312,7 @@ function sendProgramSubmit_ClickeEvent() {
     return true;
 }
 
+//ページ読み込み時に選択をリセット
 function Reloaded() {
     ClearDynamicControl();
 
@@ -317,6 +336,7 @@ var ValueGetter = (function () {
         var lines = req.responseText.split('\n');
         delete req;
 
+        //最新のデータを取得
         var lastLine = lines[lines.length - 1];
         var data = lastLine.split(",");
 
@@ -345,3 +365,4 @@ var ValueGetter = (function () {
     };
     return ValueGetter;
 })();
+//@ sourceMappingURL=remote.js.map

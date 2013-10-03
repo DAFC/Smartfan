@@ -1,6 +1,9 @@
 ﻿var Graph = (function () {
-    function Graph(canvasId, dataOffset, dataURL) {
+    function Graph(canvasId, dataOffset, dataURL, measure) {
         this.canvas = document.getElementById(canvasId);
+        this.measure = measure;
+
+        this.span = document.getElementById(canvasId + "_data");
         this.context = this.canvas.getContext('2d');
         this.dataOffset = dataOffset;
         this.dataURL = dataURL;
@@ -63,6 +66,8 @@
         var nearTen = Math.round(median / 10 + 0.5) * 10;
         var nearOne = Math.round(median + 0.5);
 
+        //横線の描画
+        //10刻みの線x3
         this.context.font = "20px 'sans-serif'";
         this.context.strokeStyle = "rgb(0,0,0)";
         for (var i = nearTen - 10; i <= nearTen + 10; i += 10) {
@@ -96,6 +101,31 @@
             this.context.stroke();
         }
 
+        /*
+        //近い線を強く
+        this.context.font = "20px 'serif'";
+        this.context.strokeStyle = "rgb(0,0,0)";
+        this.context.fillText(nearOne.toString(), 0, this.position(nearOne) + 6);
+        this.context.moveTo(this.offset, this.position(nearOne));
+        this.context.lineTo(this.canvas.width, this.position(nearOne));
+        this.context.stroke();
+        */
+        /*
+        this.context.fillText((near - 20).toString(), 0, this.position(near - 20, median, absmax) - 5);
+        this.context.moveTo(0, this.position(near - 20, median, absmax));
+        this.context.lineTo(this.canvas.width, this.position(near - 20, median, absmax));
+        this.context.fillText((near - 10).toString(), 0, this.position(near - 10, median, absmax) - 5);
+        this.context.moveTo(0, this.position(near - 10, median, absmax));
+        this.context.lineTo(this.canvas.width, this.position(near - 10, median, absmax));
+        this.context.fillText((near + 10).toString(), 0, this.position(near + 10, median, absmax) - 5);
+        this.context.moveTo(0, this.position(near + 10, median, absmax));
+        this.context.lineTo(this.canvas.width, this.position(near + 10, median, absmax));
+        this.context.fillText((near + 20).toString(), 0, this.position(near + 20, median, absmax) - 5);
+        this.context.moveTo(0, this.position(near + 20, median, absmax));
+        this.context.lineTo(this.canvas.width, this.position(near + 20, median, absmax));
+        this.context.stroke();
+        */
+        //30分毎の縦線の描画
         this.context.strokeStyle = "rgb(192,192,192)";
         for (var i = this.canvas.width; i > 0; i -= this.distance * 30) {
             this.context.moveTo(i, 0);
@@ -103,12 +133,22 @@
         }
         this.context.stroke();
 
+        //グラフの描画
         this.context.strokeStyle = "rgb(32,32,32)";
         this.context.beginPath();
         for (var i = array.length; i >= 0; i--) {
             this.context.lineTo(this.canvas.width - (i - 1) * this.distance, this.position(array[array.length - i]));
         }
         this.context.stroke();
+
+        /*
+        for (var i = array.length; i >= 0; i--) {
+        this.context.beginPath();
+        this.context.arc(this.canvas.width - (i-1) * distance, this.position(array[array.length - i], median, absmax), 2, 0, Math.PI * 2, false);
+        this.context.fill();
+        }
+        */
+        this.span.textContent = array[array.length - 1].toString() + this.measure;
     };
 
     Graph.prototype.Start = function () {
@@ -120,3 +160,4 @@
     };
     return Graph;
 })();
+//@ sourceMappingURL=graph.js.map

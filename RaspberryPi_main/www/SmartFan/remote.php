@@ -72,7 +72,7 @@ function makeTimerTask($programName, $stringArray){
 <head>
 <title>Remote | SmartFan</title>
 <meta charset="UTF-8" />
-<link rel="stylesheet" type="text/css" href="index.css" />
+<?php require_once 'CSS.php';?>
 <script type="text/javascript" src="remote.js"></script>
 <script type="text/javascript">
 	window.onload = function(){
@@ -87,13 +87,7 @@ function makeTimerTask($programName, $stringArray){
 
 	<div id="wrap">
 
-		<header>
-			<h1>Smartfan</h1>
-		</header>
-
-		<div id="navi">
-			<?php require 'navi.html'; ?>
-		</div>
+		<?php require_once 'header.html';?>
 		
 		<div id="bar">
 			<p>Smartfanを外部から制御することができます。</p>

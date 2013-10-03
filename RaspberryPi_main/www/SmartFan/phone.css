@@ -1,0 +1,172 @@
+@CHARSET "UTF-8";
+
+body{
+	margin:0px;
+	text-align:center;
+	background-color:#6cf;
+}
+
+#wrap{
+	text-align:left;
+	width:640px;
+	margin:0px auto;
+}
+
+header{
+	width:640px;
+	height:160px;
+	background-color:#6c9;
+	color:#003;
+	text-shadow:0px 5px 20px #cff;
+	position:fixed;
+	top:0;
+	left:50%;
+	margin-left:-320px;
+	z-index:20;
+}
+
+header img{
+	padding:5px 20px;
+	height:100px;
+}
+
+#navi{
+	width:640px;
+	height:160px;
+	position:fixed;
+	top:160px;
+	left:50%;
+	margin-left:-320px;
+	z-index:20;
+}
+
+#navi ul{
+	list-style-type:none;
+	height:150px;
+	overflow:hidden;
+	margin:0px;
+	padding:0px;
+	padding-left:10px;
+	background-color:#399;
+}
+
+#navi li{
+	float:left;
+	height:45px;
+	width:180px;
+	line-height:1;
+	margin:5px;
+	padding:6px 10px;
+}
+
+#navi a{
+	text-decoration:none;
+	text-align:center;
+	display:block;
+	width:160px;
+	height:40px;
+	padding:15px 0px 0px;
+	overflow:hidden;
+	background-color:#333;
+	color:#fff;
+	border:1px solid #ccf;
+	font-size:x-large;
+	font-weight: bold;
+	border-radius:15px;
+}
+
+#navi a:hover{
+	text-decoration:none;
+	background-color:#696;
+	border-color:#696;
+}
+
+#main{
+	width:620px;
+	padding:10px;
+	background-color:#cff;
+	font-size:large;
+	position:relative;
+	top:310px;
+	z-index:10;
+}
+
+#bar{
+	width:600px;
+	padding:20px;
+	background-color:#9ff;
+	position:relative;
+	top:310px;
+	z-index:10;
+}
+
+footer{
+	clear:both;
+	background-color:#cef;
+	padding:5px;
+	text-align:center;
+	position:relative;
+	top:310px;
+	z-index:10;
+}
+
+form{
+	padding:20px;
+	border:2px solid #6c9;
+	border-radius: 10px;
+	margin:10px 0px;
+}
+
+form h3{
+	font-size: large;
+	margin:10px 0px;
+}
+
+form input{
+	margin:5px 0px;
+}
+
+ul{
+	list-style-type: none;
+}
+
+dl{
+	border:2px solid #6c9;
+	padding:3px;
+	margin-bottom:10px;
+	border-radius:10px;
+}
+
+dt,dd{
+	margin:0;
+	padding:0;
+}
+
+#main input#isSleep{
+	display:none;
+}
+
+#main input#isSleep+label{
+	display:block;
+	width:100px;
+	text-align:center;
+	font-weight:bold;
+	border-top:3px solid #9cc;
+	border-left:3px solid #9cc;
+	border-bottom:3px solid #699;
+	border-right:3px solid #699;
+	padding:10px;
+}
+
+#main input#isSleep:checked+label{
+	background-color:#fff;
+	border-top:3px solid #699;
+	border-left:3px solid #699;
+	border-bottom:3px solid #9cc;
+	border-right:3px solid #9cc;
+	color:#699;
+}
+
+#main input#isSleep:checked+label:after{
+	content:"\004e2d";
+}

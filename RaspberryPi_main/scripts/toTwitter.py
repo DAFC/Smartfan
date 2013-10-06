@@ -1,6 +1,8 @@
 #!/usr/bin/env python
+import os
 import os.path
 
+os.chdir("/scripts")
 if(not os.path.exists("isBot")):
 	print "User won't tweet"
 	quit()

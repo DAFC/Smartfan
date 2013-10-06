@@ -38,13 +38,13 @@ function makeTimerTask($programName, $stringArray){
 			$string = $string . "Switch 0;";
 		}else if($query[1] === "PowerProgram"){
 			$power = 0;
-			if($query[2] === "low"){
+			if($query[2] === "Low"){
 				$power = 50;
-			}else if($query[2] === "middle"){
+			}else if($query[2] === "Middle"){
 				$power = 75;
-			}else if($query[2] === "high"){
+			}else if($query[2] === "High"){
 				$power = 100;
-			}else if($query[2] === "rhythm"){
+			}else if($query[2] === "Rhythm"){
 				$power = -1;
 			}
 			$string = $string . "Power " . $power . ";";
@@ -121,6 +121,13 @@ function makeTimerTask($programName, $stringArray){
 						echo "<p class=\"result\">風量の値が数字ではありません。</p>";
 					}
 					
+				}else if(isset($_POST['rhythmSubmit'])){
+					if(makeTask("Power -1")){
+						echo "<p class=\"result\">風をリズム風にしました。</p>";
+					}else{
+						echo "<p class=\"result\">風の指定に失敗しました。</p>";
+					}
+					
 				}elseif(isset($_POST['swingSubmit'])){
 					if(makeTask("Swing " . $_POST['swing'])){
 						echo "<p class=\"result\">Smartfanの首振りを" . ($_POST['swing']==1?"On":"Off") ."に設定しました</p>";
@@ -193,6 +200,7 @@ function makeTimerTask($programName, $stringArray){
 				<p>現在の状況:<span id="powerInsert">0％</span></p>
 				<input type="number" name="power" min="0" max="100" />
 				<input type="submit" name="powerSubmit" onclick="return isNumeralCorrect('power','power',0,100)" value="送信" />
+				<input type="submit" name="rhythmSubmit" value="リズム" />
 			</form>
 			<form name="swing" method="post" action="remote.php">
 				<h3>Smartfanの首振り</h3>

@@ -243,7 +243,7 @@ function EditProgram(filename, program) {
         } else if (query[1] == "OffProgram") {
             text = "終了:" + query[0] + "分後";
         } else if (query[1] == "PowerProgram") {
-            text = "風量:" + ((query[2] == "low") ? "弱" : ((query[2] == "middle") ? "中" : ((query[2] == "high") ? "強" : (query[2] == "rhythm" ? "リズム" : "Unknown")))) + ":" + query[0] + "分後";
+            text = "風量:" + ((query[2] == "Low") ? "弱" : ((query[2] == "Middle") ? "中" : ((query[2] == "High") ? "強" : (query[2] == "Rhythm" ? "リズム" : "Unknown")))) + ":" + query[0] + "分後";
         } else if (query[1] == "SwingProgram") {
             text = "首振り:" + query[2] + ":" + query[0] + "分後";
         }
@@ -338,16 +338,25 @@ var ValueGetter = (function () {
 
         //最新のデータを取得
         var lastLine = lines[lines.length - 1];
+        if (lastLine === "" && lines.length >= 2) {
+            lastLine = lines[lines.length - 2];
+        }
         var data = lastLine.split(",");
 
-        if (data.length < 7) {
+        if (data.length < 6) {
             console.error("送られてくるデータが少なすぎます。");
+            console.error(lastLine);
+            console.error(data);
             return;
         }
 
-        this.RewriteElements("switchInsert", (data[2] != "0") ? "On" : "Off");
-        this.RewriteElements("powerInsert", data[3] + "％");
-        this.RewriteElements("swingInsert", (data[4] != "0") ? "On" : "Off");
+        this.RewriteElements("switchInsert", data[2]);
+        if (data[3] === "-1.0") {
+            this.RewriteElements("powerInsert", "リズム");
+        } else {
+            this.RewriteElements("powerInsert", data[3] + "％");
+        }
+        this.RewriteElements("swingInsert", data[4]);
         this.RewriteElements("temperatureSettingInsert", data[5] + "℃");
     };
 
@@ -361,7 +370,7 @@ var ValueGetter = (function () {
         this.Update();
         this.timerToken = setInterval(function () {
             _this.Update();
-        }, 20000);
+        }, 10000);
     };
     return ValueGetter;
 })();

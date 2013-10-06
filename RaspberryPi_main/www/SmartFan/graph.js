@@ -34,7 +34,7 @@
         var array = Array();
         data.forEach(function (line) {
             var str = line.split(',')[_this.dataOffset];
-            if ((str != null) && (str != "") && (str != undefined)) {
+            if ((str != null) && (str != "") && (str != undefined) && (!isNaN(+str))) {
                 array.push(+str);
             }
         });

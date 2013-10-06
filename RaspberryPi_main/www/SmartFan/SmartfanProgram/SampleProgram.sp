@@ -1,5 +1,5 @@
 1_OnProgram
-2_PowerProgram_low
-3_SwingProgram_on
-4_PowerProgram_high
+2_PowerProgram_Low
+3_SwingProgram_On
+4_PowerProgram_High
 5_OffProgram

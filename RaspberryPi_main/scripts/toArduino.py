@@ -27,10 +27,11 @@ try:
 		#タスクがあれば実行する
 		if(os.path.isdir("../var/www/task") and os.path.exists("../var/www/task/task.t")):		#ロック用フォルダの有無を確認
 			task = open("../var/www/task/task.t",'r+')
-			taskline = task.readlines();			#使うのは1行目のみ
+			taskline = task.readlines()				#使うのは1行目のみ
 			task.close()
-			print "Send to Arduino : " + taskline[0]
-			ser.write(taskline[0])					#Arduinoにタスクを転送
+			if(len(taskline) > 0 and taskline[0] != None):
+				print "Send to Arduino : " + taskline[0]
+				ser.write(taskline[0])				#Arduinoにタスクを転送
 			os.remove("../var/www/task/task.t")
 			os.rmdir("../var/www/task")				#ロック用フォルダ削除
 		#プログラムがあれば確認する
@@ -62,7 +63,7 @@ try:
 			mes = response.split('|')
 			
 			#送られてきたデータの保存/更新
-			if(mes[0] == 'V'):#先頭がVなら有効パケット
+			if(mes[0] == 'V' and len(mes[1].split(',')) >= 6):#先頭がVで要素数が6以上なら有効パケット
 				print mes[1]
 				if(len(data)>=100):
 					del data[0]
